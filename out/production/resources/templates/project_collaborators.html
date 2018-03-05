@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>InstaTeam</title>
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/normalize.css}"/>
+    <link rel="stylesheet" th:href="@{/site.css}"/>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="site-header">
+            <a class="logo" th:href="@{/}">InstaTeam</a>
+            <a class="new-project button icon-left" th:href="@{/project/create}"><i class="material-icons">add</i> New Project</a>
+        </div>
+    </div>
+</header>
+<nav>
+    <ul>
+        <li class="selected"><a th:href="@{/}">Projects</a></li>
+        <li><a th:href="@{/collaborators}">Collaborators</a></li>
+        <li><a th:href="@{/roles}">Roles</a></li>
+    </ul>
+</nav>
+<section>
+    <div class="container wrapper">
+        <h3 th:text="${project.name + ': Roles Needed'}">Roles Needed</h3>
+        <ul>
+            <li th:each="role : ${roles}" th:text="${role.name}">roles</li>
+        </ul>
+        <h3>Assign collaborator to project</h3>
+        <form th:action="@{'/project/' + ${project.id} + '/addCollaborator'}" method="post" >
+            <div class="actions add-new-role">
+                <div class="custom-select">
+                    <span class="dropdown-arrow"></span>
+                    <select name="id">
+                        <option th:each="collab : ${collaborators}" th:value="${collab.id}"
+                                th:text="|${collab.name} - ${collab.role.name}|">Collaborator name - role
+                        </option>
+                    </select>
+                </div>
+                <button class="button" th:href="@{'/project/' + ${project.id} + '/addCollaborator}">Assign</button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
